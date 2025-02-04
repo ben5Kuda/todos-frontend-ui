@@ -38,7 +38,7 @@ export class AppComponent implements OnInit{
   }
 
   searchTodo() {
-      this.todoService.$todos.next(this.todos.filter(x => x.title.toLowerCase() == this.task.toLowerCase()));
+      this.todoService.$todos.next(this.todos.filter(x => x.title.toLowerCase().includes(this.task.toLowerCase())));
   }
   updateTodo(todo: TodoItem) {
     this.todoService.updateTodo(todo.id, !todo.isCompleted);

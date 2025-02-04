@@ -29,7 +29,6 @@ export class TodoService {
       .subscribe(todos => {
         this.todos = todos;
         this.$todos.next(this.todos);
-        this.setLocalStorage();
       });
   }
 
