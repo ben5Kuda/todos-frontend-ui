@@ -1,6 +1,6 @@
-import { catchError, Observable, of, Subject, tap} from "rxjs";
+import {BehaviorSubject, catchError, Observable, of, Subject, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {Inject, Injectable} from "@angular/core";
+import { Injectable} from "@angular/core";
 import {TodoItem} from "../Models/todo-item";
 
 @Injectable({
@@ -10,10 +10,9 @@ export class TodoService {
   private apiUrl = 'http://localhost:5176/TodosModule';
 
   constructor(private http: HttpClient) {
-
   }
 
-  $todos: Subject<TodoItem[]> = new Subject<TodoItem[]>();
+  todos$: BehaviorSubject<TodoItem[]> = new BehaviorSubject<TodoItem[]>([]);
   todos: TodoItem[] = [];
   private readonly localStorageKey = 'todos';
 
@@ -28,7 +27,7 @@ export class TodoService {
       )
       .subscribe(todos => {
         this.todos = todos;
-        this.$todos.next(this.todos);
+        this.todos$.next(this.todos);
       });
   }
 
@@ -40,7 +39,7 @@ export class TodoService {
       )
       .subscribe(todo => {
         this.todos.push(todo);
-        this.$todos.next(this.todos);
+        this.todos$.next(this.todos);
       });
   }
 
@@ -54,7 +53,7 @@ export class TodoService {
       const index = this.todos.findIndex(d => d.id === id);
       if (index > -1) {
         this.todos.splice(index, 1);
-        this.$todos.next(this.todos)
+        this.todos$.next(this.todos)
       }
     });
   }
@@ -69,7 +68,7 @@ export class TodoService {
         const index = this.todos.findIndex(d => d.id === id);
         if (index > -1) {
           this.todos[index].isCompleted = isComplete;
-          this.$todos.next(this.todos)
+          this.todos$.next(this.todos)
         }
       });
   }

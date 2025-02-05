@@ -1,8 +1,4 @@
 <div class="todo-container">
-  <div class="add-task">
-    <button (click)="getTodos()">Get Todos</button>
-  </div>
-
 <div class="add-task">
   <input [(ngModel)]="task" placeholder="Enter a new todo or search" [formControl]="formControl">
 
@@ -13,7 +9,7 @@
   <div class="warn" *ngIf="formControl.invalid">todo is required</div>
 <ul class="task-list">
   <li
-    *ngFor="let todo of todoService.$todos | async" [ngClass]="{'completed':todo.isCompleted}">
+    *ngFor="let todo of todos" [ngClass]="{'completed':todo.isCompleted}">
     <input
       type="checkbox"
       [checked]="todo.isCompleted"
